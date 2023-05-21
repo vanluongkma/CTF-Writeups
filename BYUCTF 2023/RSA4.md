@@ -29,8 +29,9 @@ c3 = 817719220448160189870546037910138459199653176601381564364229754193931416928
 - Solution
 ```python
 from Crypto.Util.number import long_to_bytes
-from gmpy2 import iroot
 from functools import reduce
+from gmpy2 import iroot
+
 
 
 
