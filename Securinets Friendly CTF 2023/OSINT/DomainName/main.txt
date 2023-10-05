@@ -1,0 +1,5 @@
+Can you find the two IP addresses behind the domain "admida0ui.tech" and the date the domain expires on.
+
+Flag format: Securinets{IP1_IP2_YYYY_MM_DD}
+
+For example: Securinets{8.8.8.8_8.8.4.4_2024_12_15}
