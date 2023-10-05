@@ -1,0 +1,27 @@
+[DEBUG] Received 0x25 bytes:
+    b'Smaller mater\n'
+    b'Try to guess my number\n'
+[DEBUG] Sent 0xb bytes:
+    b'1676324632\n'
+[DEBUG] Received 0x2f bytes:
+    b'Too big maybe next time\n'
+    b'Try to guess my number\n'
+[DEBUG] Sent 0xb bytes:
+    b'1676324628\n'
+[DEBUG] Received 0x2f bytes:
+    b'Too big maybe next time\n'
+    b'Try to guess my number\n'
+[DEBUG] Sent 0xb bytes:
+    b'1676324626\n'
+[DEBUG] Received 0x2f bytes:
+    b'Too big maybe next time\n'
+    b'Try to guess my number\n'
+[DEBUG] Sent 0xb bytes:
+    b'1676324625\n'
+[DEBUG] Received 0x45 bytes:
+    b'Smaller mater\n'
+    b'Securinets{BiNary_53arch_bAby}\n'
+    b'\n'
+    b'Try to guess my number\n'
+b'Smaller mater\nSecurinets{BiNary_53arch_bAby}\n\nTry to guess my number\n'
+[*] Closed connection to crypto.securinets.tn port 8887
