@@ -1,3 +1,4 @@
+```console
 patriot@Nitro:/mnt/c/users/piroxxx/code/VsCode for python/test$ python3 b.py DEBUG
 [+] Opening connection to ctf.tcp1p.com on port 13339: Done
 [DEBUG] Received 0x33 bytes:
@@ -93,3 +94,4 @@ mod2 =91684462668516233854956550355777285059390390114222443823558796425042489973
 b"TCP1P{in_life's_abundance_a_fragment_suffices}"
 [*] Closed connection to ctf.tcp1p.com port 13339
 patriot@Nitro:/mnt/c/users/piroxxx/code/VsCode for python/test$
+```
