@@ -15,3 +15,4 @@ t <= 42
 - Tiếp đó dể ``sent = True`` thì ``isPrime(n=2**t-1) = True``
 - Và qua vòng for cuối thì ``number=(2**u)*(2**(t)-1)`` Là số hoàn hảo (u = t-1) nghĩa là t cũng phải là số nguyên tố
 - 
+> FLAG : flag{luck_0n_fr1d4y_th3_13th?}
