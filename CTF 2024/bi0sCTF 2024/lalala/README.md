@@ -50,7 +50,7 @@ $$
 \end{equation*}
 $$
  - Giải ma trận bằng sage ta thu được 100 nghiệm của  $unknown_0^2 * unknown_0^3$ đến $unknown_9^2 * unknown_9^3$
- - Thu được 10 giá trị của $unknown_0^5$ đến $unknown_9^5$ ta chỉ cần  căn bậc 5 của **unknow** và chia dư cho 1000 để khôi phục lại flag.
+ - Thu được 10 giá trị của $unknown_0^5$ đến $unknown_9^5$ ta chỉ cần  căn bậc 5 của $unknown$ và chia dư cho 1000 để khôi phục lại flag.
  - Solution bằng python
 ```python3
 from sage.all import *
