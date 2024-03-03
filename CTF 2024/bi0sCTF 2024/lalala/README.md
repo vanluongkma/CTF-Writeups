@@ -86,7 +86,7 @@ l = len(m)
 m = Matrix(GF(p), m)
 y = vector(GF(p), y)
 
-ans = m.solve_right(y)
+ans = list(m.solve_right(y))
 
 flag = []
 for i in range(100):
