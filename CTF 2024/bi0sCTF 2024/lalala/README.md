@@ -49,5 +49,52 @@ $$
     \end{bmatrix}
 \end{equation*}
 $$
+ - Giải ma trận bằng sage ta thu được 100 nghiệm của  $unknown_0^2*unknown_0^3$ đến $unknown_9^2*unknown_9^3$
+ - Thu được 10 giá trị của $unknown_0^5$ đến $unknown_9^5$ tôi dùng **nth_root(5) và chia dư cho 1000 để khôi phục lại flag.
+ - Solution bằng python
+```python3
+from sage.all import *
 
- - Solution bằng sage
+p = ...
+output = ...
+
+m = []
+y = []
+vars = [[i, j] for i in range(10) for j in range(10)]
+
+for i in range(0, len(output), 4):
+    aa = output[i]
+    bb = output[i+1]
+    cc = output[i+2]
+    rs = output[i+3]
+    
+    coeffs = [0]*100
+
+    # sum([aa[i] + unknowns[bb[i]]^2 + unknowns[cc[i]]^3 for i in range(1000)])
+    sum = 0
+
+    for j in range(1000):
+        sum = (sum + aa[j]) % p
+        temp = [bb[j], cc[j]]
+        coeffs[vars.index(temp)] += 1
+
+    y.append((rs-sum) % p)
+    row = coeffs
+    m.append(row)
+
+l = len(m)
+m = Matrix(GF(p), m)
+y = vector(GF(p), y)
+
+ans = m.solve_right(y)
+
+flag = []
+for i in range(100):
+    try:
+        u = ans[i].nth_root(5)
+        flag.append(u)
+    except:
+        continue
+
+print("".join([bytes([c%1000]).decode() for c in flag]))
+```
