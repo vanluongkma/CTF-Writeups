@@ -87,14 +87,16 @@ m = Matrix(GF(p), m)
 y = vector(GF(p), y)
 
 ans = list(m.solve_right(y))
+print(ans)
 
 flag = []
 for i in range(100):
-    try:
-        u = ans[i].nth_root(5)
-        flag.append(u)
-    except:
-        continue
-
-print("".join([bytes([c%1000]).decode() for c in flag]))
+        u = gmpy2.iroot(int(ans[i]), 5)
+        print(u)
+        if u[1] == True:
+            u = u[0] % 1000
+            flag.append(u)
+            print(u)
+            print(flag)
+print("".join([bytes([c]).decode() for c in flag]))
 ```
