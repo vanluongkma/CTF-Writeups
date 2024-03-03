@@ -22,3 +22,32 @@ for _ in range(100):
 print(f"{p = }")
 print(f"{output = }")
 ```
+ - Bài này flag được ẩn trong **unknowns** bao gồm 10 giá trị với 100 vòng for :
+ - Ta hãy để ý
+```python3
+output.append(sum([a + unknowns[b]^2 * unknowns[c]^3 for a, b, c in zip(aa, bb, cc)]) % p)
+```
+ - Ở vòng for đầu tiên ta sẽ có  coefficient $coeff_i$  là: $coeff_0 * unknown_{b0}^2 * unknown_{c0}^3 + coeff_0 * unknown_{b1}^2 * unknown_{c1}^3 + coeff_0 * unknown_{b2}^2 * unknown_{c2}^3 + ... + coeff_0 * unknown_{b9}^2 * unknown_{c9}^3 + sum(aa_0) = output_0 $
+ - Với $b, c \in [0,9]$
+ - Ta sẽ dựng ma trận như sau:
+
+
+$$
+\begin{equation*}
+    \begin{bmatrix}
+        coeff_0.b_0.c_0 &amp; coeff_0.b_0.c_1 &amp; ... &amp; coeff_0.b_9.c_9 \\
+        coeff_1.b_0.c_0 &amp; coeff_1.b_0.c_1 &amp; ... &amp; coeff_1.b_9.c_9 \\
+        \vdots &amp; \vdots \\
+    coeff_{99}.b_0.c_0 &amp; coeff_{99}.b_0.c_1 &amp; ... &amp; coeff_{99}.b_9.c_9 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+         output_0 - sum(aa_0) \\
+        output_1 - sum(aa_1) \\
+        \vdots  \\
+        output_{99} - sum(aa_{99})
+    \end{bmatrix}
+\end{equation*}
+$$
+
+ - Solution bằng sage
