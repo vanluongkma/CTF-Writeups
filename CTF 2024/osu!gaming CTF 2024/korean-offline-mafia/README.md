@@ -60,7 +60,7 @@ for _ in range(1000):
 		break
 ```
  - Tôi thấy nếu ở chỗ input ``x = int(input('Pick a random r, give me x = r^2 (mod n): '))``
- - Ví dụ nếu n = 5 ta có $5^2 % 5 = 0$
+ - Ví dụ nếu n = 5 ta có $5^2 mod 5 = 0$
  - Tương tự đó ở ``y = int(input('Now give me r*product of IDs with mask applied: '))`` hay ``if pow(y, 2, n) == val:`` thì ta chỉ cần nhập tương tự như kia
  - Tức là bài này ta chỉ cần nhập x = y = n là là ``correct``
  - Solution chạy bằng lúa
