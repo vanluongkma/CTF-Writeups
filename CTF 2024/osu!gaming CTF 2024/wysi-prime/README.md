@@ -52,9 +52,6 @@ while True:
             print(long_to_bytes(pow(ciphertext, pow(e, -1, (p-1)*(q-1)), p*q)))
             exit()
 
-        if pi * qi > n:
-            continue
-
         if (n - pi * qi) % (10**i) != 0:
             continue
 
