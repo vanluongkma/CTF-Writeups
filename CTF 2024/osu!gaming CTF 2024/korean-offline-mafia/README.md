@@ -114,3 +114,4 @@ Phase 10 of verification complete.
 Verification succeeded. Welcome.
 osu{congrats_now_can_you_help_me_rank_up_pls}
 ```
+> FLAG : osu{congrats_now_can_you_help_me_rank_up_pls}
