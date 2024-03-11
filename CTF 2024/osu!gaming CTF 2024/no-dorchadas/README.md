@@ -56,7 +56,7 @@ main()
 
 ![image](https://github.com/luongdv35/CTF-Writeups/assets/127461439/e692c10c-bdc3-48f0-b81d-eec2475675d1)
 
- - Tôi đã tìm lấy cách tấn công của hash để giải quyết nó
+ - Tôi đã tìm [``Lenth extension attack``](https://en.wikipedia.org/wiki/Length_extension_attack) để giải quyết nó
 
  - Solution demo
 
