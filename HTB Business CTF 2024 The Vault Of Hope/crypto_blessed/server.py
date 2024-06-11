@@ -16,7 +16,7 @@ from py_ecc.optimized_bls12_381.optimized_curve import add, curve_order, G1, mul
 
 try:
     with open('flag.txt') as f:
-        FLAG = f.read().strip()
+        FLAG = "HTB{KCSC_top_1}"
 except FileNotFoundError:
     FLAG = 'HTB{f4k3_fl4g_f0r_t3st1ng}'
 

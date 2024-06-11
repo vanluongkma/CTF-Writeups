@@ -87,39 +87,39 @@ print([a^b for a, b in zip([121, 240, 240, 240, 1, 128, 21, 155],
 
 
 
-# # First stage of the above function
-# def custom_hash(data):
-#     state = [16, 32, 48, 80, 80, 96, 112, 128]
-#     for i in range(0, len(data), 4):
-#         block = data[i:i+4]
-#         state[4] ^= block[0]
-#         state[5] ^= block[1]
-#         state[6] ^= block[2]
-#         state[7] ^= block[3]
-#         state = permute(state)
-#         state = substitute(state)
+# First stage of the above function
+def custom_hash(data):
+    state = [16, 32, 48, 80, 80, 96, 112, 128]
+    for i in range(0, len(data), 4):
+        block = data[i:i+4]
+        state[4] ^= block[0]
+        state[5] ^= block[1]
+        state[6] ^= block[2]
+        state[7] ^= block[3]
+        state = permute(state)
+        state = substitute(state)
 
-#     return bytes(state)
+    return bytes(state)
 
-# # Birthday attack on the SPN
-# def brute_force():
-#     d = {}
-#     while True:
-#         test = bytes(urandom(4))
-#         hsh = custom_hash(test)
+# Birthday attack on the SPN
+def brute_force():
+    d = {}
+    while True:
+        test = bytes(urandom(4))
+        hsh = custom_hash(test)
         
-#         if hsh in d.values() and test not in d.keys():
-#             other_entry = list(d.keys())[list(d.values()).index(hsh)]
-#             return other_entry, test 
+        if hsh in d.values() and test not in d.keys():
+            other_entry = list(d.keys())[list(d.values()).index(hsh)]
+            return other_entry, test 
         
-#         d[test] = hsh 
+        d[test] = hsh 
 
-# a, b = brute_force()
-# # a, b = (b'\x0b\xbe\x8a*', b'\x01\xb4\x8a ')
-# a, b = a.hex(), b.hex()
+a, b = brute_force()
+# a, b = (b'\x0b\xbe\x8a*', b'\x01\xb4\x8a ')
+a, b = a.hex(), b.hex()
 
-# io = remote('socket.cryptohack.org', 13395)
-# io.recvline()
-# to_send = {'a': a, 'b': b}
-# io.sendline(json.dumps(to_send).encode())
-# print(io.recvline())
+io = remote('socket.cryptohack.org', 13395)
+io.recvline()
+to_send = {'a': a, 'b': b}
+io.sendline(json.dumps(to_send).encode())
+print(io.recvline())
