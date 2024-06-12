@@ -69,4 +69,3 @@ m2 = m2.decode('latin-1')
 get_flag = str(m1) + str(m2)
 f.sendline(get_flag.encode())
 f.interactive()
-
