@@ -6,7 +6,9 @@ menu = '''(1) Encrypt Message
 
 e = 1337
 size = 1024
-flag = open('flag.txt', 'r').read().rstrip()
+# flag = open('flag.txt', 'r').read().rstrip()
+flag = "L3AK{H4sTAD5_bR0aDc45T_4TtacK_1s_pr3tTy_c0ol!}"
+
 
 print('Welcome to the L3ak Really Simple Algorithm (RSA) Encryption Service™!')
 print('Here you can encrypt your own message, or choose to receive the encrypted flag.')
@@ -33,4 +35,3 @@ while True:
         exit()
     else:
         print('Invalid choice! Please try again.')
-

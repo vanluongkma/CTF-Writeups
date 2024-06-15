@@ -2,9 +2,7 @@
 
 from Crypto.Util.number import *
 from random import *
-# from flag import flag
-
-flag = b"KCSC{123456789}"
+from flag import flag
 
 def encrypt(msg, nbit):
 	m, p = bytes_to_long(msg), getPrime(nbit)

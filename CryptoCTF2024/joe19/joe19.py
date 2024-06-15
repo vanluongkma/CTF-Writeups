@@ -1,9 +1,8 @@
 #!/usr/bin/env sage
 from GPT import GPT6 # deep fake 
 from Crypto.Util.number import *
-# from flag import flag
+from flag import flag
 
-flag = b"KCSC{123456789}"
 
 P = [('A 512-bit prime appears in consecutive digits of e') for _ in range(4)]
 print(P)
