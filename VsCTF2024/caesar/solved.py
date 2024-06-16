@@ -22,5 +22,4 @@ for v in encoded:
     op = random.choice(ops)
     decoded.append(reverse_ops[op](v))
 
-flag = bytes(decoded)
-print(flag.decode())
+print(bytes(decoded))

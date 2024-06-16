@@ -1,22 +1,14 @@
-chars = """#asciiorder
-#fortychars
-#selfinput
-#pythontwo
+from sage.all import *
+from output import p, rot_matrix, flag_out
 
-chars = ""
-from fileinput import input
-for line in input():
-    chars += line
-b = 1 / 1
+_flag = matrix(GF(p), rot_matrix).inverse() * matrix(GF(p), flag_out) * matrix(GF(p), rot_matrix).T.inverse()
 
-for i in range(len(chars)):
-    if i == b * b * b:
-        print chars[i] #prints
-        b += 1 / 1"""
-
-b = 1 / 1
-
-for i in range(len(chars)):
-    if i == b * b * b:
-        print(chars[i]) #prints
-        b += 1 / 1
+flag = ''
+for i in range(len(list(_flag))):
+    x = _flag[i][i]
+    temp = pow(x, -(p+1)//4, p)
+    if temp < 256:
+        flag += chr(temp)
+    else:
+        flag += chr(p - temp)
+print(flag)

@@ -1,7 +1,6 @@
 from sage.all import *
 from binteger import Bin
 from sock import Sock
-from pwn import *
 from tqdm import tqdm
 import time
 
@@ -83,20 +82,20 @@ def try_solve(rnd, p_redacted, p_mask, q_redacted, q_mask, N):
 
 
 def one_round(f, rnd, att):
-    print(repr(f.recvuntil("p : 0x")))
-    p_red = int(f.recvline(), 16)
+    print(repr(f.read_until("p : 0x")))
+    p_red = int(f.read_line(), 16)
 
-    f.recvuntil("p_mask : 0x")
-    p_mask = int(f.recvline(), 16)
+    f.read_until("p_mask : 0x")
+    p_mask = int(f.read_line(), 16)
 
-    f.recvuntil("q : 0x")
-    q_red = int(f.recvline(), 16)
+    f.read_until("q : 0x")
+    q_red = int(f.read_line(), 16)
 
-    f.recvuntil("q_mask : 0x")
-    q_mask = int(f.recvline(), 16)
+    f.read_until("q_mask : 0x")
+    q_mask = int(f.read_line(), 16)
 
-    f.recvuntil("N : 0x")
-    N = int(f.recvline(), 16)
+    f.read_until("N : 0x")
+    N = int(f.read_line(), 16)
 
     try:
         p, q = try_solve(rnd, p_red, p_mask, q_red, q_mask, N)
@@ -118,16 +117,15 @@ def one_round(f, rnd, att):
         print("fail at", rnd, att, err)
         p = q = 1
 
-    f.recvuntil("format : ")
-    f.sendline("%x" % p)
-    f.recvuntil("format : ")
-    f.sendline("%x" % q)
-    print(repr(f.recvline()))
+    f.read_until("format : ")
+    f.send_line("%x" % p)
+    f.read_until("format : ")
+    f.send_line("%x" % q)
+    print(repr(f.read_line()))
     return p > 1
 
 def try_game():
-    
-    f = process(["python3", "FactorGame.py", "DEBUG"])
+    f = Sock("3.38.106.210 8287")
     n_fail = 0
     t0 = time.time()
     for rnd in range(1, 11):
@@ -157,7 +155,7 @@ def try_game():
         print()
         print()
 
-    res = f.recv()
+    res = f.read_all()
     print(repr(res))
     with open("flag", "a") as fd:
         print(repr(res), file=fd)
