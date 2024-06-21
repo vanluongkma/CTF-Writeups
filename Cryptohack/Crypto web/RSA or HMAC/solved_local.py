@@ -1,21 +1,17 @@
-from Crypto.Signature.pkcs1_15 import _EMSA_PKCS1_V1_5_ENCODE
-from Crypto.PublicKey import RSA
-from Crypto.Hash import SHA256
-from Crypto.Util.number import long_to_bytes, bytes_to_long
 import jwt_patched as jwt
-import json
-import base64
-import gmpy2
+from pwn import *
+import requests, os
 
-import jwt 
+os.system("openssl genrsa -out rsa-or-hmac-private.pem 2048")
+os.system("openssl rsa -in rsa-or-hmac-private.pem -out rsa-or-hmac-public.pem -RSAPublicKey_out")
 
-with open("rsa-or-hmac-2-private.pem", "rb") as f:
-    PRIVATE_KEY = f.read()
-    
-with open("rsa-or-hmac-2-public.pem", "rb") as f:
-    PUBLIC_KEY = f.read()
+with open('rsa-or-hmac-private.pem', 'rb') as f:
+   PRIVATE_KEY = f.read()
+with open('rsa-or-hmac-public.pem', 'rb') as f:
+   PUBLIC_KEY = f.read()
 
 FLAG = "KCSC{1234374658969508964273euh_3857238_}"
+
 
 def authorise(token):
     try:
@@ -30,22 +26,24 @@ def authorise(token):
     else:
         return {"error": "There is something wrong with your session, goodbye"}
 
+
+def create_session(username):
+    encoded = jwt.encode({'username': username, 'admin': False}, PRIVATE_KEY, algorithm='RS256')
+    return {"session": encoded}
+
+
+
+def get_pubkey():
+    return PUBLIC_KEY
+
+# test local
+
+PUBLIC_KEY = get_pubkey()
+
+print(PUBLIC_KEY)
 def create_session(username):
     encoded = jwt.encode({'username': username, 'admin': True}, PUBLIC_KEY, algorithm='HS256')
     return encoded
 
-
-
-
-def create_session(username):
-    encoded = jwt.encode({'username': username, 'admin': True}, PUBLIC_KEY, algorithm='HS256')
-    return encoded
-
-session = create_session("username")
-print(session)
-
-print(authorise(session))
-
-
-# with open("pub.pem", "r") as f:
-#     PUBLIC_KEY = f.read()
+print(create_session('username'))
+print(authorise(create_session('username')))
