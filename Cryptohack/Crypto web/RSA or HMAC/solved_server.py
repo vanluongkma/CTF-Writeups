@@ -14,4 +14,12 @@ def create_session(username):
     encoded = jwt.encode({'username': username, 'admin': True}, PUBLIC_KEY, algorithm='HS256')
     return encoded
 
-print(create_session('username'))
+session = (create_session('username'))
+
+def authorise(token):
+    return requests.get(
+        f"https://web.cryptohack.org/rsa-or-hmac/authorise/{token}/"
+    ).json()
+
+print("""\033[95m FLAG""")
+print(authorise(session))

@@ -18,9 +18,9 @@ def authorise(token):
 #     PUBLIC_KEY = f.read()
 
 with open("pub.pem", "rb") as f:
-    PUBLIC_KEY1 = f.read()
+    PUBLIC_KEY12= f.read()
 def create_session(username):
-    encoded = jwt.encode({'username': username, 'admin': True}, PUBLIC_KEY1, algorithm='HS256')
+    encoded = jwt.encode({'username': username, 'admin': True}, PUBLIC_KEY12, algorithm='HS256')
     return encoded
 
 
