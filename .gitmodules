@@ -1,0 +1,3 @@
+[submodule "JWT-Key-Recovery"]
+	path = JWT-Key-Recovery
+	url = https://github.com/FlorianPicca/JWT-Key-Recovery

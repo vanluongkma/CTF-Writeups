@@ -1,0 +1,7 @@
+[run]
+omit =
+    tests/*
+    .tox/*
+    setup.py
+    *.egg/*
+    */__main__.py
