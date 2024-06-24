@@ -1,3 +1,5 @@
 [submodule "JWT-Key-Recovery"]
 	path = JWT-Key-Recovery
 	url = https://github.com/FlorianPicca/JWT-Key-Recovery
+[submodule "Cryptohack/Crypto web/RSA or HMAC 2"]
+	path = Cryptohack/Crypto web/RSA or HMAC 2
