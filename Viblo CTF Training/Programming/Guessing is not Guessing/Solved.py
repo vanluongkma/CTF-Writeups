@@ -1,20 +1,15 @@
-from pwn import *
 
-f = connect("172.104.49.143", 9234)
-min=0
-max=18446744073709551616
-print('> ' + f.recvline().decode())
-print('> ' + f.recvline().decode())
 
-while True:
-    temp= (min+max)//2
-    f.sendline(str(temp))
-    fl = f.recvline().decode()
-    print(fl)
-    if 'too high' in fl:
-        max = temp
-    else:
-        min = temp
 
-    if 'Flag' in fl:
-        break
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import*
+import os
+
+
+def decrypt_ecb():
+    key = bytes(input())
+    ciphertext = 
+    cipher = AES.new(key, AES.MODE_ECB)
+    plaintext = cipher.decrypt(ciphertext)
+    return plaintext
+

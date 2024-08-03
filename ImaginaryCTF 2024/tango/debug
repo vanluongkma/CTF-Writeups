@@ -1,0 +1,6 @@
+[[1m[31mDEBUG[m] Received 0x65 bytes:
+    b'Welcome to the Tango server! What would you like to do?\n'
+    b'[E]ncrypt a command\n'
+    b'[R]un a command\n'
+    b'[Q]uit\n'
+    b'> '
