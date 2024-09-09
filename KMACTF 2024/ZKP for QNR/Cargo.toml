@@ -1,0 +1,13 @@
+[package]
+name = "zkp_of_qnr"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+num-bigint = { version = "0.4.3", features = ["rand", "serde"] }
+num-traits = "0.2.16"
+rand = "0.8.5"
+num-primes = "0.3.0"
+serde_json = "1.0.125"
+serde = "1.0"
+serde_derive = "1.0"

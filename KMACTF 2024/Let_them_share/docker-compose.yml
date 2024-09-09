@@ -1,0 +1,6 @@
+services:
+    shares:
+        build: .
+        ports:
+            - "2004:2004"
+        restart: unless-stopped

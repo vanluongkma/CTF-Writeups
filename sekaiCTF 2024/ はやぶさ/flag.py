@@ -1,0 +1,1 @@
+flag = b"SEKAI{FLAG}"
